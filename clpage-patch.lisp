@@ -38,8 +38,7 @@
 	  find-clp-module
 	  find-clp-module-function
 	  publish-clp
-	  request-variable-value
-	  ))
+	  request-variable-value))
 
 (defclass clp-entity (entity)
   ;; a clp file
@@ -56,8 +55,7 @@
    
    (external-format  :initform nil
 		     :initarg :external-format
-		     :accessor clp-entity-external-format)
-   ))
+		     :accessor clp-entity-external-format)))
 
 
 (defun publish-clp (&key (host nil host-p) port path class
@@ -70,8 +68,7 @@
 				  #-io-timeout nil)
 			 (content-type "text/html")
 			 plist
-			 external-format
-			 )
+			 external-format)
   
   ;; publish a templated page, one that is created by a combination
   ;; of an html file and a lisp file
@@ -103,9 +100,7 @@
 		)))
     (publish-entity ent locator path hval)
     
-    ent)
-  
-  )
+    ent))
 
 
 (defun clp-directory-entity-publisher (req ent realname info suffixes
@@ -200,10 +195,7 @@
 	     (dolist (dep (clp-entity-dependencies ent))
 	       (if* (not (eql (cdr dep)
 			      (file-write-date (car dep))))
-		  then (return t)))
-		   
-		   
-	     )
+		  then (return t))))
        then (parse-clp-file ent))
   
     (with-http-response (req ent 
@@ -229,8 +221,7 @@
       (with-http-body (req ent
 			   :external-format 
 			   (or (clp-entity-external-format ent)
-			       *default-aserve-external-format*)
-			   )
+			       *default-aserve-external-format*))
 	(emit-clp-entity req ent (clp-entity-objects ent))))
     t))
 
@@ -324,20 +315,11 @@
     (dolist (subdep (expand-clp-includes (nth 4 obj) filename external-format))
       (pushnew subdep deps :test #'equal))))
 
-			
-			
-		
-		  
-
-
 (defun tparse (filename)
   (with-open-file (p filename)
     (let ((res (parse-clp-guts p filename)))
       (expand-clp-includes res filename)
       res)))
-
-
-
 
 ;; Attempting to fix 'Unbound variable: NET.ASERVE::LASTTAG
 ;; Sun 14 Nov 2021 03:43:21 PM -05 Jason S Robinson
@@ -460,8 +442,7 @@
 (eval-when (compile load eval)
   (defparameter *clp-white-space* '(#\space #\tab #\return #\linefeed))
   (defparameter *clp-end-tagname* '(#\space #\tab #\return #\linefeed
-				    #\/ #\>))
-)
+				    #\/ #\>)))
 
 (defun parse-clp-tag (p filename)
   ;; just read a <.. now see if there's a clp tag to read
@@ -612,8 +593,7 @@
 		   (#\" (setq seendq t
 			      state 5))
 		   (t (push ch valuechars)
-		      (setq state 5)
-		      )))
+		      (setq state 5))))
 	      
 	      ; in the middle of collecting an attribute value
 	      (5 
